@@ -3,6 +3,8 @@ import * as Yup from "yup";
 import { useId } from "react";
 import s from "./ContactForm.module.css";
 import { nanoid } from "nanoid";
+import { useDispatch } from "react-redux";
+import { addContact } from "../../redux/contactsSlice";
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
@@ -17,12 +19,12 @@ const ContactSchema = Yup.object().shape({
     .required("Required"),
 });
 
-const initialValues = {
-  name: "",
-  number: "",
-};
-
-const ContactForm = ({ onAdd }) => {
+const ContactForm = () => {
+  const initialValues = {
+    name: "",
+    number: "",
+  };
+  const dispatch = useDispatch();
   const nameFieldId = useId();
   const numberFieldId = useId();
 
@@ -33,12 +35,12 @@ const ContactForm = ({ onAdd }) => {
   };
 
   const handleSubmit = (values, actions) => {
-    onAdd({
+    const newObj = {
       id: nanoid(),
       name: values.name,
       number: values.number,
-    });
-
+    };
+    dispatch(addContact(newObj));
     actions.resetForm();
   };
 
@@ -70,7 +72,7 @@ const ContactForm = ({ onAdd }) => {
               id={numberFieldId}
               onChange={(e) => {
                 const formattedValue = formatPhoneNumber(e.target.value);
-                setFieldValue("number", formattedValue); // Оновлюємо значення поля
+                setFieldValue("number", formattedValue);
               }}
             />
             <ErrorMessage className={s.span} name="number" component="span" />

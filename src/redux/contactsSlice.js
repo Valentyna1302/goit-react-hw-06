@@ -16,7 +16,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     deleteContact: (state, action) => {
-      state.items = state.items.filter((item) => item.id !== action.payload); // Item.jsx <button onClick={() => dispatch(deleteTodo(id))}>Delete</button> payload це id
+      state.items = state.items.filter((item) => item.id !== action.payload);
     },
     addContact: (state, action) => {
       state.items.push(action.payload);
